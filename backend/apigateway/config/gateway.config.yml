@@ -1,32 +1,29 @@
 http:
-  port: 8080
-admin:
-  port: 9876
-  host: localhost
+  port: ${HTTP_APIGATEWAY_PORT:-3000}
+# admin:
+#   port: 9876
+#   host: localhost
 apiEndpoints:
-  api:
-    host: localhost
-    paths: '/ip'
+  userService:
+    host: ${HTTP_APIGATEWAY_HOST:-localhost}
+    paths: '/api/userService/*'
 serviceEndpoints:
-  httpbin:
-    url: 'https://httpbin.org'
+  userService:
+    url: 'http://${HTTP_USERSERVICE_HOST:-localhost}:${HTTP_USERSERVICE_PORT:-3001}'
 policies:
-  - basic-auth
-  - cors
-  - expression
-  - key-auth
   - log
-  - oauth2
   - proxy
-  - rate-limit
 pipelines:
-  default:
+  usersPipeline:
     apiEndpoints:
-      - api
+      - userService
     policies:
     # Uncomment `key-auth:` when instructed to in the Getting Started guide.
     # - key-auth:
+      - log:
+        - action:
+            message: "${req.method} ${req.url}"
       - proxy:
           - action:
-              serviceEndpoint: httpbin 
+              serviceEndpoint: userService 
               changeOrigin: true

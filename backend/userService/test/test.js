@@ -2,7 +2,6 @@ const assert = require('assert');
 var server = require('../userService.js')
 const config = require('../app/config/config.json')
 var port = config.port || process.env.PORT;
-console.log(server.address().port)
 describe('server',function(){
     after(() => {
         server.close();

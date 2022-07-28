@@ -1,0 +1,8 @@
+{
+    "host": "localhost",
+    "port": "3306",
+    "user": "ajay",
+    "password": "Peaky@99",
+    "database": "phoenix",
+    "connectionLimit": "100"
+}

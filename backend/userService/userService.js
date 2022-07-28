@@ -1,6 +1,7 @@
 const express = require('express');
 var routes = require('./app/routes/routes.js');
-const config = require('./app/config/config.json')
+const config = require('./app/config/config.json');
+const dbConnection = require('./dbConnection/db.js');
 const port = config.port || process.env.PORT
 var app = express();
 
@@ -21,20 +22,6 @@ app.use((req,res,next) => {
 var server = app.listen(port, () => {
     console.log("server started on port : " + port)
 })
-
-// listen = function(port){
-//     console.log('inside')
-//     server = app.listen(port, function(){
-//         console.log("server started on port : " + port)
-//     })
-// }
-
-// close = function(port){
-//     console.log('inside')
-//     server.close(function(){
-//         console.log('server closed')
-//     })
-// }
 
 module.exports = server;
 
@@ -59,6 +46,7 @@ process
     })
     .on('exit', () =>{
         console.log('Exiting userService');
+        dbConnection.end();
     })
 
 
