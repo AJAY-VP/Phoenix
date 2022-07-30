@@ -1,0 +1,31 @@
+version: '1.0'
+
+services:
+  apigateway:
+    container_name: phoenix-apigateway
+    image: apigateway
+    build:
+      context: ./apigateway
+      dockerfile: ./Dockerfile
+    env_file:
+      - ./apigateway/apigateway.env
+    ports:
+      -3000:3000
+    networks:
+      - default
+  userService:
+    container_name: phoenix-userService
+    image: userService
+    build:
+      context: ./userService
+      dockerfile: ./Dockerfile
+    env_file:
+      - ./userService/userService.env
+    ports:
+      -3001:3001
+    networks:
+      - default
+networks:
+  default:
+    driver: bridge
+
