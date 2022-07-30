@@ -17,7 +17,7 @@ const User = function(user) {
 User.getAllUsers = (result) => {
   try {
     sql.query('select * from users', (err, res, fields) => {
-      console.log(err, res, res[0]);
+      console.log(err, res);
       if (err) {
         return result(err, null);
       }
