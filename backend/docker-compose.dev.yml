@@ -1,4 +1,4 @@
-version: '2.2'
+version: '3.4'
 
 services:
   apigateway:
@@ -24,6 +24,8 @@ services:
       - ./userService/userService.env
     ports:
       - 3001:3001
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"
     networks:
       - default
     restart: always

@@ -1,7 +1,7 @@
 const assert = require('assert');
 const server = require('../userService.js');
 const config = require('../app/config/config.json');
-const port = config.port || process.env.PORT;
+const port = process.env.PORT || config.port;
 describe('server', function() {
   after(() => {
     server.close();

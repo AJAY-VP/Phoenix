@@ -22,7 +22,7 @@ User.getAllUsers = (result) => {
         return result(err, null);
       }
       if (res.length) {
-        return result(null, JSON.parse(JSON.stringify(res[0])));
+        return result(null, JSON.parse(JSON.stringify(res)));
       } else {
         return result(null, 'Data Not Found');
       }

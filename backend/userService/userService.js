@@ -2,7 +2,7 @@ const express = require('express');
 const routes = require('./app/routes/routes.js');
 const config = require('./app/config/config.json');
 const dbConnection = require('./dbConnection/db.js');
-const port = config.port || process.env.PORT;
+const port = process.env.PORT || config.port;
 const app = express();
 
 app.use(express.json());

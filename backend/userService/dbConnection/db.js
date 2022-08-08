@@ -1,13 +1,13 @@
 const mysql = require('mysql');
 const dbConfig = require('../app/config/dbConfig.json');
-const host = dbConfig.host || process.env.DB_HOST;
-const port = dbConfig.port || process.env.DB_PORT;
-const user = dbConfig.user || process.env.DB_USER;
-const password = dbConfig.password || process.env.DB_PASSWORD;
-const database = dbConfig.database || process.env.DB_NAME;
+const host = process.env.DB_HOST || dbConfig.host;
+const port = process.env.DB_PORT || dbConfig.port;
+const user = process.env.DB_USER || dbConfig.user;
+const password = process.env.DB_PASSWORD || dbConfig.password;
+const database = process.env.DB_NAME || dbConfig.database;
 // eslint-disable-next-line max-len
-const connectionLimit = dbConfig.connectionLimit|| process.env.DB_CONNECTIONLIMIT;
-const dbConnection = mysql.createConnection({
+const connectionLimit = process.env.DB_CONNECTIONLIMIT || dbConfig.connectionLimit;
+const dbConnection = mysql.createPool({
   host,
   port,
   user,
@@ -22,7 +22,6 @@ const dbConnection = mysql.createConnection({
 });
 
 const dateOccured = new Date().toISOString().slice(0, 19).replace('T', '');
-
 dbConnection.on('connection', (connection) => {
   console.log('Successfully connected to database');
 
