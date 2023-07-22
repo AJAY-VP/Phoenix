@@ -1,6 +1,6 @@
 <div class="LoginFormComp">
     <div class="container">
-        <h3 class="headersty">Login</h3>
+        <h2 class="headersty">Login</h2>
         <form [formGroup]="loginForm">
             <div class="row">
                 <input class="emailsty" placeholder="Email" type="text" formControlName="email">
@@ -28,6 +28,7 @@
             <br style="clear:both;"/>
             <div class="row rowcs">
                 <button class="submitbutton" type="submit" (click)="onSumbitLogin()" [disabled]="!loginForm.valid">Sign In</button>
+                <button class="submitbutton" type="submit" (click)="onSignUp()">Sign Up</button>
             </div>
         </form>
     </div>

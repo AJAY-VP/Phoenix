@@ -26,13 +26,16 @@ export class LoginComponent implements OnInit {
 
   onSumbitLogin(){
     console.log("Submit Click")
-    this.router.navigate(['/auth/otp'])
+  }
+
+  onSignUp(){
+
   }
 
   getCaptcha(){
-    this.authService.getCaptcha().subscribe(resp => {
-      console.log("captcha resp",resp)
-    })
+    // this.authService.getCaptcha().subscribe(resp => {
+    //   console.log("captcha resp",resp)
+    // })
   }
 
   // onGetOtp(){

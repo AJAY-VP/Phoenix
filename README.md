@@ -1,3 +1,3 @@
 # Phoenix
 
-This is a test project file
+This is a test project
