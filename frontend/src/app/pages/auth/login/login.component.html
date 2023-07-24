@@ -29,7 +29,7 @@
                     </div>
                 </div>
                 <div class="col">
-                    <button class="getotp" (click)="onGetOtp()" type="submit" >Get OTP</button>
+                    <button class="getotp" [disabled]="loginForm.controls['email']['status'] == 'INVALID' || loginForm.controls['password']['status'] == 'INVALID'" (click)="onGetOtp()" type="submit" >Get OTP</button>
                 </div>
             </div>
             <br style="clear:both;"/>

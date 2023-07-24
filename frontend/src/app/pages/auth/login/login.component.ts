@@ -85,7 +85,29 @@ export class LoginComponent implements OnInit {
 
 
   onGetOtp() {
-    console.log("getOtp Click")
+    let loginId = this.loginForm.value.email;
+    this.authService.getOtp(loginId).subscribe(resp => {
+      let message = resp['response'];
+      if (resp['status'] == 'success') {
+        this.snack.open(message, 'Dismiss', {
+          duration: 3000,
+          panelClass: ['custom-snack-bar-success']
+        });
+      }
+      else {
+        this.snack.open(message, 'Dismiss', {
+          duration: 3000,
+          panelClass: ['custom-snack-bar']
+        });
+      }
+    },
+      error => {
+        console.log(error);
+        this.snack.open(error.error.response[0].msg ? error.error.response[0].msg : error.error.response, 'Dismiss', {
+          duration: 3000,
+          panelClass: ['custom-snack-bar']
+        });
+    })
   }
 
 }

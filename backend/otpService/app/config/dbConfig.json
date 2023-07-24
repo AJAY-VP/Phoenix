@@ -1,0 +1,8 @@
+{
+    "host": "127.0.0.1",
+    "port": "3306",
+    "user": "ajay",
+    "password": "Peaky@99",
+    "database": "phoenix",
+    "connectionLimit": "100"
+}

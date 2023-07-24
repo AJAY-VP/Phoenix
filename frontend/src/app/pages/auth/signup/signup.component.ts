@@ -45,7 +45,7 @@ export class SignupComponent implements OnInit {
             duration: 3000,
             panelClass: ['custom-snack-bar-success']
           });
-          // this.router.navigate(['/auth/login']);
+          this.router.navigate(['/auth/login']);
         }
         else {
           this.snack.open(message, 'Dismiss', {

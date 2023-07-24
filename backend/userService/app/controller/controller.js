@@ -107,7 +107,7 @@ exports.registerUser = async (req, res) => {
             }
           } else {
             sendEmail('registerUser',req.body);
-            return res.status(200).send({
+            return res.status(201).send({
               status: 'success',
               response: data,
             });

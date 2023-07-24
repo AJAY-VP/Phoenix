@@ -7,20 +7,23 @@ apiEndpoints:
   userService:
     host: ${HTTP_APIGATEWAY_HOST:-localhost}
     paths: '/api/userService/*'
+  otpService:
+    host: ${HTTP_APIGATEWAY_HOST:-localhost}
+    paths: '/api/otpService/*'
 serviceEndpoints:
   userService:
     url: 'http://${HTTP_USERSERVICE_HOST:-localhost}:${HTTP_USERSERVICE_PORT:-3001}'
+  otpService:
+    url: 'http://${HTTP_OTPSERVICE_HOST:-localhost}:${HTTP_OTPSERVICE_PORT:-3002}'
 policies:
   - log
   - proxy
-  # - rate-limit
+  - rate-limit
 pipelines:
   usersPipeline:
     apiEndpoints:
       - userService
     policies:
-    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
-    # - key-auth:
       - rate-limit:
         - action:
             max: 100
@@ -32,4 +35,20 @@ pipelines:
       - proxy:
           - action:
               serviceEndpoint: userService 
+              changeOrigin: true
+  otpPipeline:
+    apiEndpoints:
+      - otpService
+    policies:
+      - rate-limit:
+        - action:
+            max: 100
+            windowMs: 1000
+            rateLimitBy: "${req.ip}"
+      - log:
+        - action:
+            message: "${req.method} ${req.url}"
+      - proxy:
+          - action:
+              serviceEndpoint: otpService 
               changeOrigin: true

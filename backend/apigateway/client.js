@@ -1,32 +1,17 @@
 const axios = require('axios');
 
-const totalRequests = 1; // Change this number to simulate more or fewer requests
-const delayBetweenRequests = 100; // Delay between each request in milliseconds
-const results = [];
+const apiEndpoint = 'http://localhost:3000/api/otpService/v1/getOtp?loginId=test.99@gmail.com'; // Replace with the actual API endpoint
+const emailParam = 'test@test.com'; // Replace with the email parameter
 
-function sendRequests() {
-  const startTime = Date.now();
-  const requests = Array.from({ length: totalRequests }, () =>
-    axios.get('http://localhost:3000/api/userService/user')
-      .then(response => {
-        const endTime = Date.now();
-        console.log({ requestNumber: results.length + 1, status: response.status, duration: endTime - startTime });
-        results.push({ requestNumber: results.length + 1, status: response.status, duration: endTime - startTime });
-      })
-      .catch(error => {
-        const endTime = Date.now();
-        console.log({ requestNumber: results.length + 1, status: error ? error : 'Error', duration: endTime - startTime  });
-        results.push({ requestNumber: results.length + 1, status: error.response ? error.response.status : 'Error', duration: endTime - startTime  });
-      })
-  );
-
-  Promise.all(requests)
-    .then(() => {
-      console.log('Results:');
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
+async function callApi100Times() {
+  for (let i = 0; i < 100; i++) {
+    try {
+      const response = await axios.get(apiEndpoint);
+      console.log(`API call ${i + 1} successful! Response:`, response.data);
+    } catch (error) {
+      console.error(`API call ${i + 1} failed! Error:`, error.message);
+    }
+  }
 }
 
-sendRequests();
+callApi100Times();
