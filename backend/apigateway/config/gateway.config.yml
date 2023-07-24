@@ -13,6 +13,7 @@ serviceEndpoints:
 policies:
   - log
   - proxy
+  # - rate-limit
 pipelines:
   usersPipeline:
     apiEndpoints:
@@ -20,6 +21,11 @@ pipelines:
     policies:
     # Uncomment `key-auth:` when instructed to in the Getting Started guide.
     # - key-auth:
+      - rate-limit:
+        - action:
+            max: 100
+            windowMs: 1000
+            rateLimitBy: "${req.ip}"
       - log:
         - action:
             message: "${req.method} ${req.url}"

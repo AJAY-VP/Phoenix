@@ -1,0 +1,63 @@
+<div class="signup-container">
+    <h2 style="color: #ed1e1e;">Sign Up</h2>
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <input placeholder="First Name" type="text" id="firstName" formControlName="firstName" required>
+        <div class="error-message" *ngIf="signupForm.get('firstName').errors && signupForm.get('firstName').touched">
+          <div *ngIf="signupForm.get('firstName').errors['required']">*First name is required.</div>
+          <div *ngIf="signupForm.get('firstName').errors['minlength']">*First name must be at least 3 characters.</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <input placeholder="Last Name" type="text" id="lastName" formControlName="lastName" required>
+        <div class="error-message" *ngIf="signupForm.get('lastName').errors && signupForm.get('lastName').touched">
+          <div *ngIf="signupForm.get('lastName').errors['required']">*Last name is required.</div>
+          <div *ngIf="signupForm.get('lastName').errors['minlength']">*Last name must be at least 3 characters.</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <input placeholder="Email" type="email" id="email" formControlName="email" required>
+        <div class="error-message" *ngIf="signupForm.get('email').errors && signupForm.get('email').touched">
+          <div *ngIf="signupForm.get('email').errors['required']">*Email is required.</div>
+          <div *ngIf="signupForm.get('email').errors['email']">*Invalid email format.</div>
+        </div>
+      </div>
+      <div class="form-group" style="width: 24.75em;">
+        <select placeholder="Country Code" id="countryCode" formControlName="countryCode" required>
+          <option value="">Select Country Code</option>
+          <option value="+1">+1 (USA)</option>
+          <option value="+44">+44 (UK)</option>
+          <option value="+91">+91 (India)</option>
+          <!-- Add more options as needed -->
+        </select>
+        <div class="error-message" *ngIf="signupForm.get('countryCode').errors && signupForm.get('countryCode').touched">
+          <div *ngIf="signupForm.get('countryCode').errors['required']">*Country Code is required.</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <input placeholder="Mobile Number" type="text" id="mobileNumber" formControlName="mobileNumber" required pattern="[0-9]*">
+        <div class="error-message" *ngIf="signupForm.get('mobileNumber').errors && signupForm.get('mobileNumber').touched">
+          <div *ngIf="signupForm.get('mobileNumber').errors['required']">*Mobile number is required.</div>
+          <div *ngIf="signupForm.get('mobileNumber').hasError('pattern')">*Invalid number format.</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <textarea placeholder="Request Reason" id="requestReason" formControlName="requestReason" rows="3" required></textarea>
+        <div class="error-message" *ngIf="signupForm.get('requestReason').errors && signupForm.get('requestReason').touched">
+          <div *ngIf="signupForm.get('requestReason').errors['required']">*Request reason is required.</div>
+          <div *ngIf="signupForm.get('requestReason').errors['minlength']">*Reason must be at least 8 characters.</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col" style="transform:scale(0.85);transform-origin:0 0">
+          <re-captcha class="recaptchaStyle" (resolved)="onCaptchaResolved($event)" [siteKey]="recaptchaUiKey">    
+          </re-captcha>
+        </div>
+      </div>
+      <div class="form-buttons">
+        <button type="button" class="back-button" (click)="goBack()">Back</button>
+        <button type="submit" class="submit-button" [disabled]="!signupForm.valid || !captchaDone">Submit</button>
+      </div>
+    </form>
+  </div>
+  

@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  RecaptchaUIKey: "6LcDn0QnAAAAAEh4hR-9sg9ScNT_u5Kh6-Hl4lb8",
+  gatewayUrl: "http://localhost:3000/"
 };
 
 /*

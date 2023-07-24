@@ -1,87 +1,143 @@
-.LoginFormComp{
+.LoginFormComp {
 
-input[type="text"]{
-    // background: transparent;
-    // border: none;
-    background-color : powderblue; 
-    border-radius: 10px;
-    height: 2em;
-    padding-left: 5px;
+    .signup-container {
+        max-width: 400px;
+        margin: auto;
+        margin-top: -30px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Highlight the input field when it has errors */
+    .form-control.ng-invalid.ng-touched {
+        border-color: red;
+    }
+      
+      /* Styles for the error message */
+      .error-message {
+        color: red;
+        font-size: 14px;
+        margin-top: 4px;
+      }
+    input {
+        // background: transparent;
+        // border: none;
+        border-radius: 10px;
+        height: 2em;
+        padding-left: 5px;
+        border: none;
+        border-color: black;
+        outline: none;
+    }
+
+    .container {
+        margin: auto;
+        width: 25%;
+        padding: 10px;
+    }
+
+    .headersty {
+        text-align: center;
+        color: #ed1e1e;
+    }
+
+    .row {
+        margin-top: 1em;
+    }
+
+    .col {
+        float: left;
+        width: 50%;
+    }
+
+    .emailsty {
+        width: 100%;
+    }
+
+    .passwordsty {
+        width: 100%;
+    }
+
+    .otpsty {
+        width: 90%;
+    }
+
+    .captchasty {
+        width: 90%;
+    }
+
+    .getotp {
+        height: 2.1em;
+        border-radius: 10px;
+        background-color: #007bff;
+        color: #fff;
+        margin-top: 0em;
+    }
+
+    .rowcs {
+        text-align: center;
+    }
+
+    .submitbutton {
+        margin: 1em 10px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    button {
+        padding: 6px 10px;
+        margin: 0.4em 0.4em;
+        background-color: #007bff;
+        color: black;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    button:disabled {
+        background-color: rgba(255, 255, 255, 0.397);
+        color: black;
+        font-weight: normal;
+        cursor: not-allowed
+    }
+
+    .password-container {
+        position: relative;
+        flex: 1;
+        /* Ensure the container expands to take available width */
+    }
+
+    .password-container input {
+        width: 100%;
+        padding-right: 3px;
+        /* Increase space for the eye icon to prevent overlap */
+    }
+
+    .password-container .toggle-icon {
+        position: absolute;
+        top: 50%;
+        right: 8px;
+        /* Adjust the right position to align the icon correctly */
+        transform: translateY(-50%);
+        cursor: pointer;
+        z-index: 1;
+        /* Ensure the icon appears above the input field */
+    }
+
 }
 
-.container{
-    margin: auto;
-    width: 25%;
-    padding: 10px;
-}
-
-.headersty{
-    text-align: center;
-    color: #ed1e1e;
-}
-
-.row{
-    margin-top: 1em;
-}
-
-.col {
-    float: left;
-    width: 50%;
-}
-
-.emailsty{
+:host {
+    position: fixed;
+    top: 25%;
     width: 100%;
-}
-
-.passwordsty{
-    width: 100%;
-}
-
-.otpsty{
-    width: 90%;
-}
-
-.captchasty{
-    width: 90%;
-}
-
-.getotp{
-    height: 2em;
-    border-radius: 10px;
-    background-color : powderblue; 
-}
-
-.rowcs{
-    text-align: center;
-}
-
-.submitbutton{
-    height: 2em;
-    border-radius: 10px;
-    background-color : powderblue; 
-}
-
-button {
-    padding: 6px 10px;
-    margin: 0.4em 0.4em;
-    background-color: #007bff;
-    color: black;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-button:disabled {
-    background-color: rgba(255, 255, 255, 0.397);
-    color: black;
-    font-weight: normal;
-    cursor:not-allowed
-}
-
-}
-
-:host{
-    width: 100%;
-    height: 100%
+    height: 100%;
+    object-fit: cover;
 }

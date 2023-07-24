@@ -4,11 +4,12 @@ const config = require('./app/config/config.json');
 const dbConnection = require('./dbConnection/db.js');
 const port = process.env.PORT || config.port;
 const app = express();
+const cors = require('cors');
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(routes);
-
 //  Error 404
 app.use((req, res, next) => {
   return res.status(404).send({status: 'error', response: 'System Error'});

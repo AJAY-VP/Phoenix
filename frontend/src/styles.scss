@@ -22,3 +22,44 @@ video{
     object-fit: cover;
     z-index: -1;
 }
+
+.cdk-overlay-container {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+
+.custom-snack-bar {
+    background-color: #ff0000; /* Replace with your desired background color */
+    color: #ffffff; 
+    width: 100%;
+    position: center;
+    text-align: center;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.custom-snack-bar-success{
+    background-color: #198754; /* Replace with your desired background color */
+    color: #ffffff; 
+    width: 100%;
+    position: center;
+    text-align: center;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.custom-snack-bar-info{
+    background-color: #FFBF00; /* Replace with your desired background color */
+    color: #ffffff; 
+    width: 100%;
+    position: center;
+    text-align: center;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}

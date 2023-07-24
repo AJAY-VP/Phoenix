@@ -1,33 +1,49 @@
 <div class="LoginFormComp">
-    <div class="container">
+    <div class="signup-container">
         <h2 class="headersty">Login</h2>
         <form [formGroup]="loginForm">
             <div class="row">
                 <input class="emailsty" placeholder="Email" type="text" formControlName="email">
-            </div>
-            <div class="row">
-                <input class="passwordsty" placeholder="Password" type="text" formControlName="password">
-            </div>
-            <div class="row">
-                <div class="col">
-                    <input class="captchasty" placeholder="Captcha" type="text" formControlName="captcha">
-                </div>
-                <div class="col">
-
+                <div class="error-message" *ngIf="loginForm.get('email').errors && loginForm.get('email').touched">
+                    <div *ngIf="loginForm.get('email').errors['required']">*Email is required.</div>
+                    <div *ngIf="loginForm.get('email').errors['email']">*Invalid email format.</div>
                 </div>
             </div>
-            <!-- <br style="clear:both;"/>
+            <div class="row password-input">
+                <div class="password-container">
+                  <input type="{{ showPassword ? 'text' : 'password' }}" class="passwordsty" placeholder="Password" formControlName="password">
+                  <i class="toggle-icon" [ngClass]="!showPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'" (click)="toggleShowPassword()"></i>
+                </div>
+                <div class="error-message" *ngIf="loginForm.get('password').errors && loginForm.get('password').touched">
+                  <div *ngIf="loginForm.get('password').errors['required']">*Password is required.</div>
+                  <div *ngIf="loginForm.get('password').errors['minlength']">*Password must be at least 8 characters.</div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col">
-                    <input class="otpsty" placeholder="Enter OTP" type="text" formControlName="otp">
+                    <input class="otpsty number-input" placeholder="Enter OTP" type="text" formControlName="otp" pattern="[0-9]*">
+                    <div class="error-message" *ngIf="loginForm.get('otp').errors && loginForm.get('otp').touched">
+                        <div *ngIf="loginForm.get('otp').errors['required']">*OTP is required.</div>
+                        <div *ngIf="loginForm.get('otp').hasError('pattern')">*Invalid number format.</div>
+                        <div *ngIf="loginForm.get('otp').errors['minlength'] || loginForm.get('otp').errors['maxlength']">*OTP must be 6 digits.</div>
+                    </div>
                 </div>
                 <div class="col">
                     <button class="getotp" (click)="onGetOtp()" type="submit" >Get OTP</button>
                 </div>
-            </div> -->
+            </div>
+            <br style="clear:both;"/>
+            <div class="row">
+                <!-- <div class="col"> -->
+                <div class="col" style="transform:scale(0.85);transform-origin:0 0">
+                    <!-- <input class="captchasty" placeholder="Captcha" type="text" formControlName="captcha"> -->
+                    <re-captcha class="recaptchaStyle" (resolved)="onCaptchaResolved($event)" [siteKey]="recaptchaUiKey">    
+                    </re-captcha>
+                </div>
+            </div>
             <br style="clear:both;"/>
             <div class="row rowcs">
-                <button class="submitbutton" type="submit" (click)="onSumbitLogin()" [disabled]="!loginForm.valid">Sign In</button>
+                <button class="submitbutton" type="submit" (click)="onSumbitLogin()" [disabled]="!loginForm.valid || !captchaDone">Sign In</button>
                 <button class="submitbutton" type="submit" (click)="onSignUp()">Sign Up</button>
             </div>
         </form>
