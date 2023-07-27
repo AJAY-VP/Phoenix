@@ -102,8 +102,15 @@ export class LoginComponent implements OnInit {
       }
     },
       error => {
-        console.log(error);
-        this.snack.open(error.error.response[0].msg ? error.error.response[0].msg : error.error.response, 'Dismiss', {
+        console.log(error.status);
+        let message;
+        if(error.status == 429){
+          message = "Too Many Requests";
+        }
+        else{
+          message = error.error.response[0].msg ? error.error.response[0].msg : error.error.response;
+        }
+        this.snack.open(message, 'Dismiss', {
           duration: 3000,
           panelClass: ['custom-snack-bar']
         });

@@ -4,9 +4,6 @@ db:
     emulate: true
     namespace: EG
 
-# plugins:
-#   - express-gateway-plugin-rate-limit
-#   - express-gateway-plugin-ip
 
 crypto:
   cipherKey: sensitiveKey

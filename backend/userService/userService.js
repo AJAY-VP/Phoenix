@@ -3,10 +3,25 @@ const routes = require('./app/routes/routes.js');
 const config = require('./app/config/config.json');
 const dbConnection = require('./dbConnection/db.js');
 const port = process.env.PORT || config.port;
+const host = process.env.UI_HOST || config.uiHost;
 const app = express();
 const cors = require('cors');
 
-app.use(cors());
+const corsOptions = {
+  origin: host, // Replace with the allowed origin (or '*' to allow all origins)
+};
+
+function validateRequest(req, res, next) {
+  console.log(req.headers);
+  if(req.headers['x-gateway-routed'] == 'true')
+    next();
+  else 
+  return res.status(500).send({status: 'error', response: 'Invalid Access'});
+
+}
+
+app.use(cors(corsOptions));
+app.use(validateRequest);
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(routes);

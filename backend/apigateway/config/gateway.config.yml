@@ -19,11 +19,22 @@ policies:
   - log
   - proxy
   - rate-limit
+  - request-transformer
+  - cors
 pipelines:
   usersPipeline:
     apiEndpoints:
       - userService
     policies:
+      - cors:
+        - action:
+            origin: ${HTTP_UI_HOST:-http://localhost:4200}
+            methods: 'GET,PUT,PATCH,POST,DELETE'
+      - request-transformer:
+        - action:
+            headers:
+              add:
+                x-gateway-routed: "true"
       - rate-limit:
         - action:
             max: 100
@@ -40,10 +51,19 @@ pipelines:
     apiEndpoints:
       - otpService
     policies:
+      - cors:
+        - action:
+            origin: ${HTTP_UI_HOST:-http://localhost:4200}
+            methods: 'GET'
+      - request-transformer:
+        - action:
+            headers:
+              add:
+                x-gateway-routed: "true"
       - rate-limit:
         - action:
-            max: 100
-            windowMs: 1000
+            max: 3
+            windowMs: 60000
             rateLimitBy: "${req.ip}"
       - log:
         - action:
