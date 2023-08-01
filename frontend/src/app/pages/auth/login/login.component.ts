@@ -3,7 +3,8 @@ import { UntypedFormGroup, UntypedFormControl, UntypedFormBuilder, Validators, V
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
 import { environment } from 'src/environments/environment';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { SHA256 } from 'crypto-js';
+import { CommonService } from 'src/app/shared/services/common/common.service';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,7 @@ export class LoginComponent implements OnInit {
   showPassword: boolean = false;
   captchaDone: boolean = false;
 
-  constructor(private fb: UntypedFormBuilder, private authService: AuthService, private router: Router, private snack: MatSnackBar) {
+  constructor(private fb: UntypedFormBuilder, private authService: AuthService, private router: Router, private commonService: CommonService) {
 
   }
 
@@ -26,7 +27,7 @@ export class LoginComponent implements OnInit {
       email: ['', [Validators.required, Validators.maxLength(256), Validators.email]],
       password: ['', [Validators.required, Validators.maxLength(256), Validators.minLength(8)]],
       // captcha: new UntypedFormControl(''),
-      otp: new UntypedFormControl('', [Validators.required, Validators.maxLength(6), Validators.minLength(6)])
+      otp: new UntypedFormControl('', [Validators.required, Validators.maxLength(8), Validators.minLength(8)])
     })
   }
 
@@ -47,35 +48,27 @@ export class LoginComponent implements OnInit {
 
   onSumbitLogin() {
     if (this.loginForm.valid && this.captchaDone) {
-      this.authService.login(this.googleRecaptchaToken).subscribe(resp => {
-        let message = resp['response'];
+      const passwordToEncrypt = this.loginForm.value.password;
+      // Encrypt the password using SHA256
+      const encryptedPassword = SHA256(passwordToEncrypt).toString();
+      console.log(encryptedPassword);
+      let loginData = {
+        loginId : this.loginForm.value.email,
+        password: encryptedPassword,
+        captchaToken: this.googleRecaptchaToken,
+        otp: this.loginForm.value.otp
+      }
+      this.authService.login(loginData).subscribe(resp => {
         if (resp['status'] == 'success') {
-          this.snack.open(message, 'Dismiss', {
-            duration: 3000,
-            panelClass: ['custom-snack-bar-success']
-          });
+          let message = resp['response'];
+          this.router.navigate(['/home/homeApp']);
+          this.commonService.callSnackBarMessage(message,'success');
         }
-        else {
-          this.snack.open(message, 'Dismiss', {
-            duration: 3000,
-            panelClass: ['custom-snack-bar']
-          });
-        }
-      },
-        error => {
-          console.log(error);
-          this.snack.open(error.error.response, 'Dismiss', {
-            duration: 3000,
-            panelClass: ['custom-snack-bar']
-          });
-        })
+      });
     }
     else{
       this.loginForm.markAllAsTouched();
-      this.snack.open('Please fill all the fields', 'Dismiss', {
-        duration: 3000,
-        panelClass: ['custom-snack-bar-info']
-      });
+      this.commonService.callSnackBarMessage('Please fill all the fields','info');
     }
   }
 
@@ -87,33 +80,10 @@ export class LoginComponent implements OnInit {
   onGetOtp() {
     let loginId = this.loginForm.value.email;
     this.authService.getOtp(loginId).subscribe(resp => {
-      let message = resp['response'];
       if (resp['status'] == 'success') {
-        this.snack.open(message, 'Dismiss', {
-          duration: 3000,
-          panelClass: ['custom-snack-bar-success']
-        });
+        let message = resp['response'];
+        this.commonService.callSnackBarMessage(message,'success')
       }
-      else {
-        this.snack.open(message, 'Dismiss', {
-          duration: 3000,
-          panelClass: ['custom-snack-bar']
-        });
-      }
-    },
-      error => {
-        console.log(error.status);
-        let message;
-        if(error.status == 429){
-          message = "Too Many Requests";
-        }
-        else{
-          message = error.error.response[0].msg ? error.error.response[0].msg : error.error.response;
-        }
-        this.snack.open(message, 'Dismiss', {
-          duration: 3000,
-          panelClass: ['custom-snack-bar']
-        });
     })
   }
 

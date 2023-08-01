@@ -12,6 +12,8 @@ const User = function (user) {
   this.enabled = user.enabled;
   this.userPrivilegeId = user.userPrivilegeId;
   this.accessRequestReason = user.accessRequestReason;
+  this.password = user.password;
+  this.otp = user.otp;
 };
 
 User.getAllUsers = (result) => {
@@ -46,6 +48,47 @@ User.registerUser = (userDetails, result) => {
       }
       if (res.insertId > 0) {
         return result(null, 'User Registered Successfully');
+      } else {
+        return result(null, 'Data Not Found');
+      }
+    });
+  } catch (error) {
+    return result(error, null);
+  }
+};
+
+User.getUserForLogin = (email,result) => {
+  try {
+    let queryDB = 'select firstName, lastName, email, mobileNumber, accessRequestReason, enabled, otp, otpTime, password from users where email = ?';
+    let values = [email];
+    sql.query(queryDB,values, (err, results) => {
+      try {
+        if (err)
+          return result(err, null);
+        if (results.length) {
+          return result(null, JSON.parse(JSON.stringify(results[0])));
+        } else {
+          return result(null, 'Data Not Found');
+        }
+      } catch (error) {
+        return result(error, null);
+      }
+    });
+  } catch (error) {
+    return result(error, null);
+  }
+};
+
+User.updatePassword = (email,password,result) => {
+  try {
+    const query = 'UPDATE users set password = ? where email = ?';
+    const values = [password,email];
+    sql.query(query,values, (err, res, fields) => {
+      if (err) {
+        return result(err, null);
+      }
+      if (res.affectedRows > 0) {
+        return result(null, 'User Password Updated Successfully');
       } else {
         return result(null, 'Data Not Found');
       }

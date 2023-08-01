@@ -29,6 +29,21 @@ services:
     networks:
       - default
     restart: always
+  otpservice:
+    container_name: phoenix-otpservice
+    image: otpservice
+    build:
+      context: ./otpService
+      dockerfile: ./Dockerfile
+    env_file:
+      - ./otpService/otpService.env
+    ports:
+      - 3001:3001
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"
+    networks:
+      - default
+    restart: always
 networks:
   default:
     driver: bridge

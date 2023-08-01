@@ -17,7 +17,7 @@ const User = function (user) {
 
 User.getUser = (email,result) => {
   try {
-    let queryDB = 'select firstName, lastName, email, mobileNumber, accessRequestReason, enabled from users where email = ?';
+    let queryDB = 'select firstName, lastName, email, mobileNumber, accessRequestReason, enabled, password from users where email = ?';
     let values = [email];
     sql.query(queryDB,values, (err, results) => {
       try {
@@ -52,6 +52,7 @@ User.updateOTP = (email,otp,timestamp,result) => {
           return result(null, 'Data Not Found');
         }
       } catch (error) {
+        console.log("err ",error)
         return result(error, null);
       }
     });

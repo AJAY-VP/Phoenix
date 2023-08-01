@@ -41,6 +41,13 @@ function mailBodyGenerate(template,mailDetails){
                 const personalizedEmailHTML = emailHTML.replace('{{emailBody}}', emailBody);
                 resolve(personalizedEmailHTML);
             }
+            case 'firstTimePassword': {
+              var emailBody = `<div class="content"><p>Hi ${mailDetails.firstName} ${mailDetails.lastName},</p>`;
+              emailBody += `<p>You passwrod is ${mailDetails.password}. Please use this password to login and change the password after that.</p>`;
+              emailBody += '<p>Thank you for joining us!</p></div>';
+              const personalizedEmailHTML = emailHTML.replace('{{emailBody}}', emailBody);
+              resolve(personalizedEmailHTML);
+          }
         }
     });
 }
@@ -74,7 +81,17 @@ var service = {
         } catch(error){
             console.log("Error",error)
         }
-    }
+    },
+    sendPassword: async function(mailDetails, result){
+      try{
+        console.log("mail passowrd")
+      let subject = "First Time Password Mail";
+      let mailBody = await mailBodyGenerate('firstTimePassword',mailDetails);
+      sendEmail(mailDetails.email,subject,mailBody);
+      } catch(error){
+          console.log("Error",error)
+      }
+    },
 }
 
 module.exports = service;

@@ -4,10 +4,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthModule } from './pages/auth/auth.module';
-import { HttpClientModule } from '@angular/common/http';
-import { ToastrModule } from 'ngx-toastr';
+import { HomeModule } from './pages/home/home.module';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { HttpInterceptorService } from './shared/services/auth/http-interceptor.service.ts.service';
 
 @NgModule({
   declarations: [
@@ -17,16 +18,18 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     BrowserModule,
     AppRoutingModule,
     AuthModule,
+    HomeModule,
     HttpClientModule,
     BrowserAnimationsModule,
     MatSnackBarModule,
-    ToastrModule.forRoot({
-      positionClass: 'toast-bottom-center', // Set the position to bottom center
-      preventDuplicates: true, // Prevent duplicate messages
-      closeButton: true, // Show a close button on each toast
-    }),
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptorService,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

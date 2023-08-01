@@ -25,7 +25,7 @@
                     <div class="error-message" *ngIf="loginForm.get('otp').errors && loginForm.get('otp').touched">
                         <div *ngIf="loginForm.get('otp').errors['required']">*OTP is required.</div>
                         <div *ngIf="loginForm.get('otp').hasError('pattern')">*Invalid number format.</div>
-                        <div *ngIf="loginForm.get('otp').errors['minlength'] || loginForm.get('otp').errors['maxlength']">*OTP must be 6 digits.</div>
+                        <div *ngIf="loginForm.get('otp').errors['minlength'] || loginForm.get('otp').errors['maxlength']">*OTP must be 8 digits.</div>
                     </div>
                 </div>
                 <div class="col">

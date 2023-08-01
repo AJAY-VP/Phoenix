@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
+import { CommonService } from 'src/app/shared/services/common/common.service';
 
 @Component({
   selector: 'app-signup',
@@ -16,7 +16,7 @@ export class SignupComponent implements OnInit {
   googleRecaptchaToken: string;
   captchaDone: boolean = false;
 
-  constructor(private fb: FormBuilder, private router: Router, private snack: MatSnackBar, private authService: AuthService) {} // Inject FormBuilder in the constructor
+  constructor(private fb: FormBuilder, private router: Router, private commonService: CommonService, private authService: AuthService) {} // Inject FormBuilder in the constructor
 
   ngOnInit(): void {
     this.createSignupForm();
@@ -39,34 +39,15 @@ export class SignupComponent implements OnInit {
       let signUpData = JSON.parse(JSON.stringify(this.signupForm.value));
       signUpData['captchaToken'] = this.googleRecaptchaToken;
       this.authService.registerUser(signUpData).subscribe(resp => {
-        let message = resp['response'];
         if (resp['status'] == 'success') {
-          this.snack.open(message, 'Dismiss', {
-            duration: 3000,
-            panelClass: ['custom-snack-bar-success']
-          });
+          let message = resp['response'];
+          this.commonService.callSnackBarMessage(message,'success');
           this.router.navigate(['/auth/login']);
         }
-        else {
-          this.snack.open(message, 'Dismiss', {
-            duration: 3000,
-            panelClass: ['custom-snack-bar']
-          });
-        }
-      },
-        error => {
-          console.log(error);
-          this.snack.open(error.error.response[0].msg ? error.error.response[0].msg : error.error.response, 'Dismiss', {
-            duration: 3000,
-            panelClass: ['custom-snack-bar']
-          });
       })
     } else {
       this.signupForm.markAllAsTouched();
-      this.snack.open('Please fill all the fields', 'Dismiss', {
-        duration: 3000,
-        panelClass: ['custom-snack-bar-info']
-      });
+      this.commonService.callSnackBarMessage('Please fill all the fields','info')
     }
   }
 
