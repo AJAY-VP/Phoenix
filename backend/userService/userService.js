@@ -13,7 +13,7 @@ const corsOptions = {
 
 function validateRequest(req, res, next) {
   console.log(req.headers);
-  if(req.headers['x-gateway-routed'] == 'true')
+  if(req.headers['x-gateway-routed'] == 'true' && req.headers['secondary'])
     next();
   else 
   return res.status(500).send({status: 'error', response: 'Invalid Access'});

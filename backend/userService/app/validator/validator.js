@@ -4,13 +4,16 @@ module.exports.validate = (validateParams) => {
     switch (validateParams) {
         case 'login':
             return [
+                check('secondary', 'Token is Required').exists({ checkFalsy: true }).trim(),
                 check('loginId', 'Email Address Required').exists({ checkFalsy: true }).trim().escape()
                     .isEmail().withMessage('Invalid Email Addess'),
                 check('password', 'Password Required').exists({ checkFalsy: true }).trim().escape(),
-                check('captchaToken', 'Captcha Required').exists({ checkFalsy: true }).trim()
+                check('captchaToken', 'Captcha Required').exists({ checkFalsy: true }).trim(),
+                check('otp', 'OTP Required').exists({ checkFalsy: true}).trim()
             ];
         case 'registerUser':
             return [
+                check('secondary', 'Token is Required').exists({ checkFalsy: true }).trim(),
                 check('firstName')
                     .notEmpty().withMessage('First name is required.')
                     .trim()

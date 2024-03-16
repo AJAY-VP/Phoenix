@@ -10,10 +10,13 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { CommonService } from '../common/common.service';
+import { environment } from 'src/environments/environment';
+import * as CryptoJS from 'crypto-js';
 
 
 @Injectable()
 export class HttpInterceptorService implements HttpInterceptor {
+  secToken = environment.secToken;
   constructor(private commonService: CommonService) {
   }
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -21,9 +24,13 @@ export class HttpInterceptorService implements HttpInterceptor {
     const token = 'YOUR_ACCESS_TOKEN';
     console.log("in interceptor")
     if (token) {
+      const timestamp = new Date().toISOString();
+      const dataToEncrypt = JSON.stringify({ timestamp });
+      const encrypted = CryptoJS.AES.encrypt(dataToEncrypt,this.secToken);
       request = request.clone({
         setHeaders: {
-          Authorization: `Bearer ${token}`
+          authorization: `Bearer ${token}`,
+          secondary: `Bearer ${encrypted}`
         }
       });
     }

@@ -1,4 +1,6 @@
 {
     "port": "3002",
-    "uiHost": "http://localhost:4200"
+    "uiHost": "http://localhost:4200",
+    "secToken": "8a75de1917c62ca068f3fbabdf91b1e4c68f7f02b708ef1bb41fade8660ce826",
+    "secTokenExp": 10
 }

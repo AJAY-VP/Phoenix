@@ -59,7 +59,11 @@ User.registerUser = (userDetails, result) => {
 
 User.getUserForLogin = (email,result) => {
   try {
-    let queryDB = 'select firstName, lastName, email, mobileNumber, accessRequestReason, enabled, otp, otpTime, password from users where email = ?';
+    let queryDB = `select u.id, up.privilege, up.id as userPrivilegeId, u.firstName, u.lastName, u.email, u.enabled, u.otp, u.otpTime, u.password
+    from users u
+    left join user_privilege up on
+    u.userPrivilegeId = up.id
+    where u.email = ?`;
     let values = [email];
     sql.query(queryDB,values, (err, results) => {
       try {
