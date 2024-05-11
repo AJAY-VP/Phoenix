@@ -16,8 +16,11 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
-# Expose port 4200 for Angular development server
-EXPOSE 4200
+# Build the Angular application
+RUN ng build --prod
 
-# Start Angular development server using ng
-CMD ["ng", "serve", "--host", "0.0.0.0"]
+# Expose port 80 for serving the application
+EXPOSE 80
+
+# Start serving the application using a simple web server
+CMD ["npm", "run", "start:prod"]
