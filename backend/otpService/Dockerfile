@@ -1,4 +1,4 @@
-FROM node:14.18-alpine
+FROM node:18-alpine
 
 #  Create app directory
 WORKDIR /usr/src/app/
@@ -12,6 +12,6 @@ RUN npm install
 
 COPY ./ ./
 
-EXPOSE 3001
+EXPOSE 3002
 
 CMD ["node", "otpService.js"]

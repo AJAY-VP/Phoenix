@@ -1,0 +1,20 @@
+version: '3.4'
+
+services:
+  angular-app:
+    # Build the Dockerfile in the current directory
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    # Ports mapping
+    ports:
+      - "4200:4200"
+    # Optional: Define environment variables
+    # env_file:
+    #   - ./frontend.env
+    # Optional: Set volumes for persistent storage or other configurations
+    volumes:
+      - ./src:/app/src
+      - ./public:/app/public
+    # Optional: Set restart policy
+    restart: always

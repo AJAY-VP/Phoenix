@@ -38,7 +38,7 @@ services:
     env_file:
       - ./otpService/otpService.env
     ports:
-      - 3001:3001
+      - 3002:3002
     extra_hosts:
       - "host.docker.internal:172.17.0.1"
     networks:
